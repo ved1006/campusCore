@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ved.students.model.Student;
-import com.ved.students.repository.StudentRepository;
 import com.ved.students.service.StudentService;
 
 @RestController
@@ -52,5 +52,10 @@ public class StudentController {
     public String deleteStudent(@PathVariable int id) {
         studentService.deleteStudent(id);
         return "Student details deleted";
+    }
+
+    @GetMapping("/paginated")
+    public List<Student> getStudentsPaginated(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy, @RequestParam String     direction) {
+        return studentService.getStudentsPaginated(page,size,sortBy,direction);
     }
 }

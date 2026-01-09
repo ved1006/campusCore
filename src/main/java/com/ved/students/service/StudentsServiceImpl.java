@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ved.students.model.Student;
 import com.ved.students.repository.StudentRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class StudentsServiceImpl implements StudentService {
@@ -48,8 +51,22 @@ public class StudentsServiceImpl implements StudentService {
     @Override
     public void deleteStudent(int id) {
         Student student = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+            .orElseThrow(() -> new RuntimeException("Student not found"));
         repo.delete(student);
+    }
+
+    @Override
+    public List<Student> getStudentsPaginated(int page,int size,String sortBy,String direction){
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+            ? Sort.by(sortBy).descending()
+            : Sort.by(sortBy).ascending();
+
+
+        Pageable pageable = PageRequest.of(page, size,sort);
+        Page<Student> studentPage = repo.findAll(pageable);
+
+        return studentPage.getContent();
     }
 
 }
