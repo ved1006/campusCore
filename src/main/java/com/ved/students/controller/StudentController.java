@@ -10,47 +10,47 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ved.students.model.Student;
 import com.ved.students.repository.StudentRepository;
+import com.ved.students.service.StudentService;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
-    @Autowired
-    StudentRepository repo;
-    @GetMapping("/student")
+    
+     @Autowired
+    private StudentService studentService;
+
+    @GetMapping
     public List<Student> getAllStudents() {
-        List<Student> all = repo.findAll();
-        return all;
+        return studentService.getAllStudents();
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/{id}")
     public Student getStudent(@PathVariable int id) {
-        Student student = repo.findById(id).get();
-        return student;
+        return studentService.getStudent(id);
     }
-    @ResponseStatus(code = HttpStatus.CREATED)
-    @PostMapping("/add")
-    public String addStudent(@RequestBody Student student ) {
-        repo.save(student);
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public String addStudent(@RequestBody Student student) {
+        studentService.addStudent(student);
         return "Student added!";
     }
 
-    @PutMapping("/student/update/{id}")
-    public String updateStudent(@PathVariable int id) {
-        Student student = repo.findById(id).get();
-        student.setName("chutiya");
-        student.setBranch("nothing");
-        repo.save(student);
-        return "changes made!";
+    @PutMapping("/{id}")
+    public String updateStudent(@PathVariable int id,@RequestBody Student student) {
+        studentService.updateStudent(id, student);
+        return "Changes made!";
     }
 
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable int id) {
-        Student student = repo.findById(id).get();
-        repo.delete(student);
-        return "student details deleted";
+        studentService.deleteStudent(id);
+        return "Student details deleted";
     }
 }

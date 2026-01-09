@@ -1,0 +1,18 @@
+package com.ved.students.service;
+
+import java.util.List;
+
+import com.ved.students.model.Student;
+
+public interface StudentService {
+    
+    List<Student> getAllStudents();
+
+    Student getStudent(int id);
+
+    void addStudent(Student student);
+
+    void updateStudent(int id,Student student);
+
+    void deleteStudent(int id);
+}   
