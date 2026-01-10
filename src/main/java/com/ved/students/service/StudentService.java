@@ -17,4 +17,10 @@ public interface StudentService {
     void deleteStudent(int id);
 
     List<Student> getStudentsPaginated(int page,int size,String sortBy,String direction);
+    //{
+    //     Pageable pageable = PageRequest.of(page,size,sortBy,direction);
+    //     Page<Student> page = repo.findAll(pageable);
+
+    // }
+
 }   

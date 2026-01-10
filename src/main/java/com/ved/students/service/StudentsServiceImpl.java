@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import com.ved.students.exception.InvalidInputException;
+import com.ved.students.exception.StudentNotFoundException;
+
 @Service
 public class StudentsServiceImpl implements StudentService {
     
@@ -28,11 +31,18 @@ public class StudentsServiceImpl implements StudentService {
     @Override
     public Student getStudent(int id) {
         return repo.findById(id)
-            .orElseThrow(() -> new RuntimeException("Student not found"));
+            .orElseThrow(() -> new StudentNotFoundException("Error: Student not found of this id " + id));
     }
 
     @Override
     public void addStudent(Student student) {
+        if(student.getName() == null || student.getName().isBlank()) {
+            throw new InvalidInputException("Name cannot be empty");   
+        }
+
+        if(student.getPercentage() < 0 || student.getPercentage() > 100) {
+            throw new InvalidInputException("the percentage is invalid");
+        }
         repo.save(student);
     }
 
