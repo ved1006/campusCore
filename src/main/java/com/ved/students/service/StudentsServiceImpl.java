@@ -16,7 +16,7 @@ import org.springframework.data.domain.Sort;
 import com.ved.students.exception.InvalidInputException;
 import com.ved.students.exception.StudentNotFoundException;
 
-//@Service
+@Service
 public class StudentsServiceImpl implements StudentService {
     
     @Autowired
