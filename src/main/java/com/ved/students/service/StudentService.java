@@ -2,25 +2,20 @@ package com.ved.students.service;
 
 import java.util.List;
 
-import com.ved.students.model.Student;
+import com.ved.students.dto.StudentRequestDTO;
+import com.ved.students.dto.StudentResponseDTO;
 
 public interface StudentService {
-    
-    List<Student> getAllStudents();
 
-    Student getStudent(int id);
+    List<StudentResponseDTO> getAllStudents();
 
-    void addStudent(Student student);
+    StudentResponseDTO getStudent(int id);
 
-    void updateStudent(int id,Student student);
+    StudentResponseDTO addStudent(StudentRequestDTO studentDTO);
+
+    StudentResponseDTO updateStudent(int id, StudentRequestDTO studentDTO);
 
     void deleteStudent(int id);
 
-    List<Student> getStudentsPaginated(int page,int size,String sortBy,String direction);
-    //{
-    //     Pageable pageable = PageRequest.of(page,size,sortBy,direction);
-    //     Page<Student> page = repo.findAll(pageable);
-
-    // }
-
-}   
+    List<StudentResponseDTO> getStudentsPaginated(int page,int size,String sortBy,String direction);
+}
